@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloodBridge - Lifesaving Resources</title>
+    <!-- Google Fonts for professional look -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f4f6fb 60%, #e9f2ff 100%);
+            color: #23272f;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(90deg, #007bff 60%, #0056b3 100%);
+            color: white;
+            padding: 24px 20px 18px 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            position: relative;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.13);
+        }
+        .logo-icon svg {
+            width: 26px;
+            height: 26px;
+            display: block;
+        }
+        h1 {
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.01em;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 600;
+            padding: 14px 28px 12px 28px;
+            border-radius: 0 0 8px 8px;
+            transition: background 0.2s, color 0.2s;
+            position: relative;
+            font-size: 1.08rem;
+            outline: none;
+        }
+        nav a.active, nav a:focus {
+            background: #e9f2ff;
+            color: #0056b3;
+            box-shadow: 0 4px 12px rgba(0,123,255,0.08);
+        }
+        nav a.active::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 30%;
+            right: 30%;
+            bottom: 6px;
+            height: 3px;
+            background: linear-gradient(90deg, #007bff 60%, #0056b3 100%);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        nav a:hover {
+            background: #f0f7ff;
+            color: #0056b3;
+        }
+
+        section {
+            padding: 32px 16px 24px 16px;
+            display: none;
+            max-width: 600px;
+            margin: 0 auto;
+            transition: opacity 0.3s;
+        }
+        section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 18px;
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Card style for forms and dashboard */
+        .card {
+            background-color: #fff;
+            padding: 28px 20px 20px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 123, 255, 0.10);
+            max-width: 100%;
+            margin: 0 auto 24px auto;
+        }
+
+        form {
+            margin: 0;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 28px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 16px 40px 16px 16px;
+            border: 1.5px solid #cfd8dc;
+            border-radius: 6px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: border 0.2s, box-shadow 0.2s;
+            background: #f4f8ff;
+            box-shadow: inset 0 2px 8px rgba(0,123,255,0.06);
+            color: #23272f;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border: 2px solid #007bff;
+            outline: none;
+            box-shadow: 0 0 0 3px #b3d8ff, 0 2px 8px rgba(0,123,255,0.10) inset;
+            background: #fff;
+        }
+        .form-group input::placeholder, .form-group select::placeholder {
+            color: #7a8ca3;
+            font-weight: 500;
+            opacity: 1;
+        }
+        .form-group label {
+            position: absolute;
+            left: 16px;
+            top: 14px;
+            background: #fff;
+            padding: 0 4px;
+            color: #8a99b3;
+            font-size: 1rem;
+            font-weight: 500;
+            pointer-events: none;
+            transition: 0.2s;
+        }
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label,
+        .form-group select:focus + label,
+        .form-group select:not([value=""]) + label {
+            top: -12px;
+            left: 10px;
+            font-size: 0.92rem;
+            color: #007bff;
+            background: #fff;
+        }
+        .form-group .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #b0b8c1;
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+        .form-group .validation {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+        }
+        .form-group .validation.valid {
+            color: #28a745;
+        }
+        .form-group .validation.invalid {
+            color: #dc3545;
+        }
+
+        button {
+            background: linear-gradient(90deg, #007bff 60%, #0056b3 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.07);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+            border-radius: 6px;
+            padding: 14px 0;
+            font-size: 1.08rem;
+            position: relative;
+            overflow: hidden;
+        }
+        button:active {
+            transform: scale(0.97);
+        }
+        button:disabled {
+            background: #b0b8c1;
+            cursor: not-allowed;
+        }
+        .spinner {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            border: 3px solid #fff;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .dashboard {
+            background-color: #fff;
+            padding: 22px 20px 18px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 123, 255, 0.10);
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .dashboard ul {
+            list-style: none;
+            padding: 0;
+        }
+        .dashboard li {
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 1.05rem;
+            transition: background 0.2s;
+        }
+        .dashboard li:last-child {
+            border-bottom: none;
+        }
+        .dashboard li:hover {
+            background: #f0f7ff;
+        }
+
+        /* Toast notification styles */
+        .toast {
+            visibility: hidden;
+            min-width: 260px;
+            background: #fff;
+            color: #23272f;
+            text-align: left;
+            border-radius: 10px;
+            padding: 18px 32px 18px 18px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 40px;
+            transform: translateX(-50%);
+            font-size: 1.08rem;
+            box-shadow: 0 4px 24px rgba(0,123,255,0.13);
+            opacity: 0;
+            transition: opacity 0.4s, visibility 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 6px solid #007bff;
+        }
+        .toast.success { border-left-color: #28a745; }
+        .toast.error { border-left-color: #dc3545; }
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .toast .toast-icon {
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 700px) {
+            section, .dashboard, .card {
+                max-width: 98vw;
+                padding: 16px 4vw;
+            }
+            nav a {
+                padding: 12px 10px 10px 10px;
+                font-size: 0.98rem;
+            }
+        }
+        @media (max-width: 480px) {
+            header {
+                font-size: 1.1rem;
+                padding: 16px 4vw 12px 4vw;
+            }
+            h1 {
+                font-size: 1.2rem;
+            }
+            h2 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="logo-icon">
+                <!-- Simple blood drop SVG icon -->
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 3C16 3 6 14.5 6 21C6 26.2467 10.7533 31 16 31C21.2467 31 26 26.2467 26 21C26 14.5 16 3 16 3Z" fill="#e63946" stroke="#fff" stroke-width="2"/>
+                    <ellipse cx="16" cy="22" rx="6" ry="7" fill="#fff" fill-opacity="0.2"/>
+                </svg>
+            </span>
+            <h1>BloodBridge: Lifesaving Resources</h1>
+        </div>
+    </header>
+    <nav>
+        <a href="#" id="nav-emergency" onclick="showSection('emergency', this)" aria-label="Emergency Request">Emergency Request</a>
+        <a href="#" id="nav-donor" onclick="showSection('donor', this)" aria-label="Donor Management">Donor Management</a>
+        <a href="#" id="nav-inventory" onclick="showSection('inventory', this)" aria-label="Blood Bank Inventory">Blood Bank Inventory</a>
+    </nav>
+
+    <!-- Emergency Blood Request -->
+    <section id="emergency" class="active">
+        <h2>Emergency Blood Request</h2>
+        <div class="card">
+            <form id="emergencyForm" autocomplete="off" aria-label="Emergency Blood Request Form" novalidate>
+                <div class="form-group">
+                    <input type="text" id="bloodType" placeholder=" " pattern="^(A|B|AB|O)[+-]$" title="Enter a valid blood group (A+, O-, etc.)" required aria-required="true" aria-label="Blood Type"/>
+                    <label for="bloodType">Blood Type</label>
+                    <span class="input-icon">🩸</span>
+                    <span class="validation" id="bloodTypeValidation"></span>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="quantity" placeholder=" " min="1" required aria-required="true" aria-label="Quantity (units)"/>
+                    <label for="quantity">Quantity (units)</label>
+                    <span class="input-icon">#️⃣</span>
+                    <span class="validation" id="quantityValidation"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="location" placeholder=" " required aria-required="true" aria-label="Location"/>
+                    <label for="location">Location</label>
+                    <span class="input-icon">📍</span>
+                    <span class="validation" id="locationValidation"></span>
+                </div>
+                <button type="button" id="emergencySubmitBtn" onclick="submitEmergencyRequest()">Submit Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Donor Management -->
+    <section id="donor">
+        <h2>Donor Management</h2>
+        <div class="dashboard card">
+            <h3 style="font-family:'Montserrat',sans-serif;font-size:1.1rem;color:#0056b3;margin-bottom:10px;">Upcoming Blood Drives</h3>
+            <ul>
+                <li>Blood Drive at City Hall - 04 June 2025</li>
+                <li>Community Center Drive - 10 June 2025</li>
+            </ul>
+            <button type="button" onclick="scheduleDonation()">Schedule Donation</button>
+        </div>
+    </section>
+
+    <!-- Blood Bank Inventory -->
+    <section id="inventory">
+        <h2>Blood Bank Inventory</h2>
+        <div class="card">
+            <form id="inventoryForm" autocomplete="off" aria-label="Blood Bank Inventory Form" novalidate>
+                <div class="form-group">
+                    <input type="text" id="bloodTypeInventory" placeholder=" " required aria-required="true" aria-label="Blood Type"/>
+                    <label for="bloodTypeInventory">Blood Type</label>
+                    <span class="input-icon">🩸</span>
+                    <span class="validation" id="bloodTypeInventoryValidation"></span>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="stockLevel" placeholder=" " required aria-required="true" aria-label="Stock Level (units)"/>
+                    <label for="stockLevel">Stock Level (units)</label>
+                    <span class="input-icon">#️⃣</span>
+                    <span class="validation" id="stockLevelValidation"></span>
+                </div>
+                <button type="button" id="inventorySubmitBtn" onclick="updateInventory()">Update Inventory</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast" role="status" aria-live="polite"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
+
+    <script>
+        // Function to show specific section and highlight nav
+        function showSection(sectionId, navLink) {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            // Highlight nav
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            if (navLink) navLink.classList.add('active');
+            else {
+                // On load, default to first
+                document.getElementById('nav-emergency').classList.add('active');
+            }
+        }
+        // On page load, highlight first nav
+        window.onload = function() {
+            showSection('emergency', document.getElementById('nav-emergency'));
+        };
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = message;
+            toast.className = 'toast show ' + (type === 'success' ? 'success' : type === 'error' ? 'error' : '');
+            toastIcon.innerHTML = type === 'success' ? '✔️' : type === 'error' ? '❌' : 'ℹ️';
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 2500);
+        }
+
+        // Inline validation helpers
+        function setValidation(id, valid, msg = '') {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (valid === null) {
+                el.textContent = '';
+                el.className = 'validation';
+            } else if (valid) {
+                el.textContent = '✔';
+                el.className = 'validation valid';
+            } else {
+                el.textContent = msg || '✖';
+                el.className = 'validation invalid';
+            }
+        }
+
+        // Emergency form validation
+        document.getElementById('bloodType').addEventListener('input', function() {
+            const val = this.value.trim();
+            const pattern = /^(A|B|AB|O)[+-]$/;
+            setValidation('bloodTypeValidation', val ? pattern.test(val) : null, 'Invalid');
+        });
+        document.getElementById('quantity').addEventListener('input', function() {
+            setValidation('quantityValidation', this.value && this.value >= 1 ? true : (this.value ? false : null), 'Min 1');
+        });
+        document.getElementById('location').addEventListener('input', function() {
+            setValidation('locationValidation', this.value.trim() ? true : null, 'Required');
+        });
+
+        // Inventory form validation
+        document.getElementById('bloodTypeInventory').addEventListener('input', function() {
+            setValidation('bloodTypeInventoryValidation', this.value.trim() ? true : null, 'Required');
+        });
+        document.getElementById('stockLevel').addEventListener('input', function() {
+            setValidation('stockLevelValidation', this.value && this.value >= 0 ? true : (this.value ? false : null), '0+');
+        });
+
+        // Emergency request submission
+        async function submitEmergencyRequest() {
+            const bloodType = document.getElementById('bloodType').value.trim();
+            const quantity = document.getElementById('quantity').value;
+            const location = document.getElementById('location').value.trim();
+            const bloodTypePattern = /^(A|B|AB|O)[+-]$/;
+            let valid = true;
+            if (!bloodTypePattern.test(bloodType)) {
+                setValidation('bloodTypeValidation', false, 'Invalid');
+                document.getElementById('bloodType').focus();
+                valid = false;
+            }
+            if (!quantity || quantity < 1) {
+                setValidation('quantityValidation', false, 'Min 1');
+                document.getElementById('quantity').focus();
+                valid = false;
+            }
+            if (!location) {
+                setValidation('locationValidation', false, 'Required');
+                document.getElementById('location').focus();
+                valid = false;
+            }
+            if (!valid) {
+                showToast('Please correct the highlighted fields.', 'error');
+                return;
+            }
+            // Show loading spinner
+            const btn = document.getElementById('emergencySubmitBtn');
+            btn.disabled = true;
+            const oldText = btn.textContent;
+            btn.innerHTML = '<span class="spinner"></span>';
+            await new Promise(r => setTimeout(r, 1200)); // Simulate async
+            btn.innerHTML = oldText;
+            btn.disabled = false;
+            showToast(`Emergency request for ${bloodType} (${quantity} units) at ${location} submitted!`, 'success');
+            // Add API logic here
+        }
+
+        // Schedule donation
+        function scheduleDonation() {
+            showToast('Donation scheduled successfully.', 'success');
+            // Add scheduling logic here
+        }
+
+        // Inventory update
+        async function updateInventory() {
+            const bloodType = document.getElementById('bloodTypeInventory').value.trim();
+            const stockLevel = document.getElementById('stockLevel').value;
+            let valid = true;
+            if (!bloodType) {
+                setValidation('bloodTypeInventoryValidation', false, 'Required');
+                document.getElementById('bloodTypeInventory').focus();
+                valid = false;
+            }
+            if (!stockLevel || stockLevel < 0) {
+                setValidation('stockLevelValidation', false, '0+');
+                document.getElementById('stockLevel').focus();
+                valid = false;
+            }
+            if (!valid) {
+                showToast('Please correct the highlighted fields.', 'error');
+                return;
+            }
+            // Show loading spinner
+            const btn = document.getElementById('inventorySubmitBtn');
+            btn.disabled = true;
+            const oldText = btn.textContent;
+            btn.innerHTML = '<span class="spinner"></span>';
+            await new Promise(r => setTimeout(r, 1200)); // Simulate async
+            btn.innerHTML = oldText;
+            btn.disabled = false;
+            showToast('Inventory updated successfully.', 'success');
+            // Add API logic here
+        }
+    </script>
+</body>
+</html>
